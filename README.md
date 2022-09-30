@@ -1,5 +1,5 @@
 ## Car Price Prediction
-This project will mainly focused on developing price prediction for car using Python. The dataset being used in this project is the car dataset that provided by Quikr.
+This project will mainly focused on developing price prediction application for car using Python with dataset obtained from Quikr. The machine learning algorithm being used in this project is Linear Regression.
 
 ## Application Demo
 
