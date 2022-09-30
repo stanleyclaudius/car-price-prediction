@@ -2,6 +2,7 @@
 This project will mainly focused on developing price prediction application for car using Python with dataset obtained from Quikr. The machine learning algorithm being used in this project is Linear Regression.
 
 ## Application Demo
+https://user-images.githubusercontent.com/68453143/193279289-b9d4e25a-eba5-4396-923d-394775ccbabb.mp4
 
 ## Technology Used
 1. [Python](https://www.python.org/)
