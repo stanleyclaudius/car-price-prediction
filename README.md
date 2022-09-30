@@ -2,6 +2,7 @@
 This project will mainly focused on developing price prediction for car using Python. The dataset being used in this project is the car dataset that provided by Quikr.
 
 ## Application Demo
+https://user-images.githubusercontent.com/68453143/193279289-b9d4e25a-eba5-4396-923d-394775ccbabb.mp4
 
 ## Technology Used
 1. [Python](https://www.python.org/)
