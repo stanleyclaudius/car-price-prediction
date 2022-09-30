@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="static/css/style.css">
+    <title>Car Price Predictor</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Car Price Predictor</h1>
+        <form method="POST" action="#">
+            <div class="input-group">
+                <label for="manufacturer">Car Manufacturer</label>
+                <select name="manufacturer" id="manufacturer" onchange="loadCarModels()">
+                    <option value="">Select Car Manufacturer</option>
+                    {% for manufacturer in manufacturers %}
+                    <option value="{{ manufacturer }}">{{ manufacturer }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="model">Car Model</label>
+                <select name="model" id="model"></select>
+            </div>
+            <div class="input-group">
+                <label for="year">Purchased Year</label>
+                <select name="year" id="year">
+                    <option value="">Select Purchased Year</option>
+                    {% for year in years %}
+                    <option value="{{ year }}">{{ year }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="fuel">Fuel Type</label>
+                <select name="fuel" id="fuel">
+                    <option value="">Select Fuel Type</option>
+                    {% for fuel in fuels %}
+                    <option value="{{ fuel }}">{{ fuel }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="km_driven">Kilometers Driven</label>
+                <input type="number" id="km_driven" name="km_driven">
+            </div>
+            <div class="button-group">
+                <button onclick="sendData()">Predict</button>
+                <h3 id="car_price"></h3>
+            </div>
+        </form>
+    </div>
+
+<script>
+    const loadCarModels = () => {
+        let manufacturer = document.getElementById('manufacturer')
+        let modelEl = document.getElementById('model')
+
+        modelEl.value = ''
+        modelEl.innerHTML = ''
+
+        {% for manufacturer in manufacturers %}
+            if (manufacturer.value == "{{ manufacturer }}") {
+                {% for model in models %}
+                    {% if manufacturer in model %}
+                        var newOption = document.createElement('option')
+                        newOption.value = "{{ model }}"
+                        newOption.innerHTML = "{{ model }}"
+                        modelEl.appendChild(newOption)
+                    {% endif %}
+                {% endfor %}
+            }
+        {% endfor %}
+    }
+
+    const currencyFormatter = amount => {
+        let formatter = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'INR'
+        })
+
+        return formatter.format(amount).toString()
+    }
+
+    const sendData = () => {
+        document.querySelector('form').addEventListener('submit', e => {
+            e.preventDefault()
+        })
+
+        if (document.getElementById('manufacturer').value === '') {
+            return alert('Please select car manufacturer')
+        }
+
+        if (document.getElementById('year').value === '') {
+            return alert('Please select car purchased year')
+        }
+
+        if (document.getElementById('fuel').value === '') {
+            return alert('Please select car fuel type')
+        }
+
+        if (!document.getElementById('km_driven').value) {
+            return alert('Please fill your car kilometers driven')
+        }
+
+        let fd = new FormData(document.querySelector('form'))
+        let xhr = new XMLHttpRequest()
+
+        xhr.open('POST', '/predict', true)
+        document.getElementById('car_price').innerHTML = 'Loading ...'
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                document.getElementById('car_price').innerHTML = currencyFormatter(xhr.responseText)
+            }
+        }
+        xhr.onload = () => {}
+        xhr.send(fd)
+    }
+</script>
+</body>
+</html>
